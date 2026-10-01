@@ -1,0 +1,8 @@
+-- Report ID : RPT_008
+-- Report    : PO Details
+-- Module    : Other
+-- Source    : Oracle RMS / MFCS RDS Views
+-- Generated : Extracted from DVA file
+--------------------------------------------------------------------------------
+
+SELECT     oh.ORDER_NO,     oh.STATUS,     oh.ORDER_TYPE,     oh.PO_TYPE,     oh.PURCHASE_TYPE,     oh.DEPT,     oh.BUYER,     oh.SUPPLIER,     s.SUP_NAME AS SUPPLIER_NAME,     oh.CURRENCY_CODE,     oh.WRITTEN_DATE,     oh.NOT_BEFORE_DATE,     oh.NOT_AFTER_DATE,     oh.EARLIEST_SHIP_DATE,     oh.LATEST_SHIP_DATE,     oh.CLOSE_DATE,     oh.ORIG_APPROVAL_DATE,     oh.TERMS,     oh.FREIGHT_TERMS,     oh.SHIP_METHOD,     oh.PAYMENT_METHOD,     oh.SHIP_PAY_METHOD,     oh.FOB_TRANS_RES_DESC,     oh.FOB_TITLE_PASS_DESC,     oh.IMPORT_ORDER_IND,     oh.IMPORT_COUNTRY_ID,     oh.VENDOR_ORDER_NO,     oh.CONTRACT_NO,     oh.COMMENT_DESC,     os.ITEM,     os.REF_ITEM,     im.ITEM_DESC,     im.DEPT AS ITEM_DEPT,     im.CLASS,     im.SUBCLASS,     os.ORIGIN_COUNTRY_ID,     os.SUPP_PACK_SIZE,     ol.LOCATION,     ol.LOC_TYPE,     ol.UNIT_COST,     ol.UNIT_RETAIL,     ol.QTY_ORDERED,     ol.QTY_RECEIVED,     ol.QTY_CANCELLED,     ol.QTY_ORDERED - ol.QTY_RECEIVED - NVL(ol.QTY_CANCELLED, 0) AS QTY_OUTSTANDING,     ol.ESTIMATED_INSTOCK_DATE,     ol.CANCEL_DATE,     ol.CANCEL_CODE,     ol.UNIT_COST * ol.QTY_ORDERED AS TOTAL_COST,     ol.UNIT_RETAIL * ol.QTY_ORDERED AS TOTAL_RETAIL FROM rds_wv_ordhead oh INNER JOIN rds_wv_ordsku os ON os.ORDER_NO = oh.ORDER_NO INNER JOIN rds_wv_ordloc ol ON ol.ORDER_NO = oh.ORDER_NO AND ol.ITEM = os.ITEM INNER JOIN rds_wv_item_master im ON im.ITEM = os.ITEM INNER JOIN rds_wv_sups s ON s.SUPPLIER = oh.SUPPLIER WHERE oh.STATUS <> 'C'

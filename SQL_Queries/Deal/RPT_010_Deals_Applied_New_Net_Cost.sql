@@ -1,0 +1,8 @@
+-- Report ID : RPT_010
+-- Report    : Deals Applied New Net Cost
+-- Module    : Deal
+-- Source    : Oracle RMS / MFCS RDS Views
+-- Generated : Extracted from DVA file
+--------------------------------------------------------------------------------
+
+SELECT     dh.DEAL_ID,     dh.TYPE AS DEAL_TYPE,     dh.STATUS AS DEAL_STATUS,     dh.SUPPLIER,     s.SUP_NAME AS SUPPLIER_NAME,     dh.CURRENCY_CODE,     dh.ACTIVE_DATE AS DEAL_ACTIVE_DATE,     dh.CLOSE_DATE AS DEAL_CLOSE_DATE,     dh.BILLING_TYPE,     dh.DEAL_APPL_TIMING,     dh.ORDER_NO,     oh.STATUS AS PO_STATUS,     oh.WRITTEN_DATE AS PO_WRITTEN_DATE,     oh.ORIG_APPROVAL_DATE AS PO_APPROVAL_DATE,     dd.DEAL_DETAIL_ID,     dd.DEAL_COMP_TYPE,     dd.COLLECT_START_DATE,     dd.COLLECT_END_DATE,     dd.DEAL_CLASS,     dd.COST_APPL_IND,     dt.LOWER_LIMIT,     dt.UPPER_LIMIT,     dt.VALUE AS THRESHOLD_VALUE,     ol.ITEM,     im.ITEM_DESC,     im.DEPT,     im.CLASS,     im.SUBCLASS,     ol.LOCATION,     ol.LOC_TYPE,     ol.UNIT_COST AS ELC,     ol.UNIT_COST - NVL(dt.VALUE, 0) AS NEW_NET_COST,     NVL(dt.VALUE, 0) AS COST_REDUCTION,     ol.QTY_ORDERED,     ol.QTY_ORDERED * NVL(dt.VALUE, 0) AS TOTAL_DEAL_SAVING FROM rds_wv_deal_head dh INNER JOIN rds_wv_deal_detail dd ON dd.DEAL_ID = dh.DEAL_ID INNER JOIN rds_wv_sups s ON s.SUPPLIER = dh.SUPPLIER LEFT JOIN rds_wv_deal_threshold dt ON dt.DEAL_ID = dd.DEAL_ID AND dt.DEAL_DETAIL_ID = dd.DEAL_DETAIL_ID LEFT JOIN rds_wv_ordhead oh ON oh.ORDER_NO = dh.ORDER_NO LEFT JOIN rds_wv_ordloc ol ON ol.ORDER_NO = oh.ORDER_NO LEFT JOIN rds_wv_item_master im ON im.ITEM = ol.ITEM WHERE dh.STATUS NOT IN ('C', 'R') AND dh.ORDER_NO IS NOT NULL
